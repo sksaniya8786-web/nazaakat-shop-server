@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quilted Bags — Nazaakat by Saniya</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#F5EEE2;
+    --cream-deep:#EBE0CC;
+    --paper:#FBF8F2;
+    --olive:#6E7350;
+    --olive-deep:#535731;
+    --rose:#C89B92;
+    --taupe:#8B7059;
+    --charcoal:#2A241D;
+    --gold:#B08D4F;
+    --line: rgba(42,36,29,0.14);
+    --display: 'Cormorant Garamond', serif;
+    --body: 'Jost', sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--cream);
+    color:var(--charcoal);
+    font-family:var(--body);
+    font-weight:300;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{text-decoration:none;color:inherit;}
+  ul{list-style:none;}
+  img{display:block;max-width:100%;}
+
+  .eyebrow{
+    font-family:var(--body);
+    letter-spacing:.28em;
+    text-transform:uppercase;
+    font-size:.7rem;
+    color:var(--olive-deep);
+    display:flex;align-items:center;gap:.6em;
+  }
+  .eyebrow::before{
+    content:'';
+    width:22px;height:1px;
+    background:var(--gold);
+    display:inline-block;
+  }
+  .btn{
+    font-family:var(--body);
+    font-size:.78rem;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    padding:1em 2.4em;
+    border:1px solid var(--charcoal);
+    background:transparent;
+    color:var(--charcoal);
+    cursor:pointer;
+    transition:.4s ease;
+    display:inline-block;
+  }
+  .btn:hover{background:var(--charcoal);color:var(--cream);}
+  .btn.solid{background:var(--charcoal);color:var(--cream);}
+  .btn.solid:hover{background:var(--olive-deep);border-color:var(--olive-deep);}
+
+  /* ---------- nav (same as homepage) ---------- */
+  header{
+    position:sticky;top:0;z-index:100;
+    background:rgba(245,238,226,.92);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  nav{
+    max-width:1400px;margin:0 auto;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:1.1em 2.5em;
+  }
+  .logo{
+    font-family:var(--display);
+    font-size:1.9rem;
+    letter-spacing:.02em;
+    display:flex;flex-direction:column;line-height:1;
+  }
+  .logo small{
+    font-family:var(--body);
+    font-size:.6rem;
+    letter-spacing:.32em;
+    text-transform:uppercase;
+    color:var(--taupe);
+    margin-top:.35em;
+  }
+  .nav-links{display:flex;gap:2.4em;}
+  .nav-links a{
+    font-size:.76rem;letter-spacing:.14em;text-transform:uppercase;
+    position:relative;padding:.3em 0;
+  }
+  .nav-links a::after{
+    content:'';position:absolute;left:0;bottom:0;
+    width:0;height:1px;background:var(--gold);
+    transition:.35s ease;
+  }
+  .nav-links a:hover::after{width:100%;}
+  .nav-icons{display:flex;align-items:center;gap:1.4em;}
+  .nav-icons button{background:none;border:none;cursor:pointer;color:var(--charcoal);}
+  .nav-icons svg{width:18px;height:18px;stroke:var(--charcoal);}
+  .burger{display:none;background:none;border:none;cursor:pointer;}
+  .burger span{display:block;width:24px;height:1px;background:var(--charcoal);margin:6px 0;}
+
+  /* ---------- breadcrumb + page hero ---------- */
+  .breadcrumb{
+    max-width:1360px;margin:0 auto;padding:1.6em 2.5em 0;
+    font-size:.75rem;letter-spacing:.08em;color:var(--taupe);
+  }
+  .breadcrumb a:hover{color:var(--gold);}
+  .breadcrumb span{margin:0 .5em;}
+
+  .page-hero{
+    max-width:1360px;margin:0 auto;padding:2.2em 2.5em 3.5em;
+    text-align:center;
+  }
+  .page-hero h1{
+    font-family:var(--display);font-weight:500;
+    font-size:clamp(2.4rem,5vw,3.6rem);margin:.3em 0 .4em;
+  }
+  .page-hero p{
+    color:var(--taupe);font-size:.95rem;line-height:1.75;
+    max-width:640px;margin:0 auto;
+  }
+
+  /* ---------- product grid ---------- */
+  .shop-wrap{max-width:1360px;margin:0 auto;padding:0 2.5em 6em;}
+  .product-grid{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:2.4em;
+  }
+  .product-card{
+    background:var(--paper);border:1px solid var(--line);border-radius:14px;
+    overflow:hidden;display:flex;flex-direction:column;
+  }
+  .product-img{
+    height:380px;background:linear-gradient(160deg,var(--cream-deep),var(--cream));
+    overflow:hidden;position:relative;
+  }
+  .product-img img{width:100%;height:100%;object-fit:cover;transition:.4s ease;}
+  .product-body{padding:1.4em 1.5em 1.7em;flex:1;display:flex;flex-direction:column;}
+  .product-body h3{font-family:var(--display);font-size:1.35rem;font-weight:500;margin-bottom:.15em;}
+  .product-tag{font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--taupe);margin-bottom:.7em;}
+  .product-price{font-family:var(--display);font-size:1.15rem;color:var(--olive-deep);margin-bottom:1.1em;}
+
+  .option-label{
+    font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:var(--taupe);
+    margin-bottom:.5em;
+  }
+  .swatches{display:flex;gap:.65em;margin-bottom:1.2em;}
+  .swatch{
+    width:28px;height:28px;border-radius:50%;cursor:pointer;
+    border:2px solid transparent;box-shadow:0 0 0 1px var(--line);
+    transition:.25s ease;position:relative;
+  }
+  .swatch.active{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold);}
+  .swatch:hover{transform:scale(1.08);}
+
+  .sizes{display:flex;gap:.6em;margin-bottom:1.5em;}
+  .size-btn{
+    min-width:38px;height:38px;padding:0 .9em;border:1px solid var(--line);background:transparent;
+    font-family:var(--body);font-size:.72rem;letter-spacing:.02em;color:var(--charcoal);
+    cursor:pointer;transition:.25s ease;
+  }
+  .size-btn.active{background:var(--charcoal);color:var(--cream);border-color:var(--charcoal);}
+  .size-btn:hover{border-color:var(--charcoal);}
+
+  .add-bag-btn{
+    margin-top:auto;
+    font-family:var(--body);font-size:.75rem;letter-spacing:.16em;text-transform:uppercase;
+    padding:.95em 1em;border:1px solid var(--charcoal);background:transparent;color:var(--charcoal);
+    cursor:pointer;transition:.35s ease;width:100%;
+  }
+  .add-bag-btn:hover{background:var(--charcoal);color:var(--cream);}
+  .add-bag-btn.added{background:var(--olive-deep);border-color:var(--olive-deep);color:var(--cream);}
+
+  /* ---------- toast ---------- */
+  .toast{
+    position:fixed;left:50%;bottom:2.2em;transform:translate(-50%,20px);
+    background:var(--charcoal);color:var(--cream);
+    padding:.9em 1.8em;border-radius:40px;
+    font-size:.8rem;letter-spacing:.04em;
+    opacity:0;pointer-events:none;transition:.35s ease;z-index:400;
+  }
+  .toast.show{opacity:1;transform:translate(-50%,0);}
+
+  /* ---------- product quick-view popup ---------- */
+  .product-img{cursor:pointer;}
+  .qv-overlay{
+    display:none;position:fixed;inset:0;z-index:500;
+    background:rgba(42,36,29,.6);backdrop-filter:blur(4px);
+    align-items:center;justify-content:center;padding:2em 1.5em;
+  }
+  .qv-overlay.open{display:flex;}
+  .qv-modal{
+    background:var(--paper);max-width:980px;width:100%;max-height:90vh;overflow-y:auto;
+    border-radius:14px;position:relative;
+    display:grid;grid-template-columns:1fr 1fr;
+    animation:qvIn .35s ease;
+  }
+  @keyframes qvIn{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:translateY(0);}}
+  .qv-close{
+    position:absolute;top:1.1em;right:1.2em;z-index:2;
+    width:36px;height:36px;border-radius:50%;
+    background:var(--cream);border:1px solid var(--line);
+    display:flex;align-items:center;justify-content:center;
+    cursor:pointer;font-size:1.05rem;transition:.3s;
+  }
+  .qv-close:hover{background:var(--charcoal);color:var(--cream);}
+
+  .qv-slider{position:relative;background:linear-gradient(160deg,var(--cream-deep),var(--cream));}
+  .qv-slider-track{height:100%;min-height:420px;position:relative;overflow:hidden;}
+  .qv-slider-track img{
+    width:100%;height:100%;min-height:420px;object-fit:cover;
+    position:absolute;inset:0;opacity:0;transition:opacity .4s ease;
+  }
+  .qv-slider-track img.active{opacity:1;}
+  .qv-arrow{
+    position:absolute;top:50%;transform:translateY(-50%);z-index:2;
+    width:38px;height:38px;border-radius:50%;border:none;
+    background:rgba(245,238,226,.85);cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+    font-size:1.1rem;color:var(--charcoal);transition:.25s;
+  }
+  .qv-arrow:hover{background:var(--charcoal);color:var(--cream);}
+  .qv-arrow.prev{left:1em;}
+  .qv-arrow.next{right:1em;}
+  .qv-dots{
+    position:absolute;bottom:1.1em;left:50%;transform:translateX(-50%);
+    display:flex;gap:.5em;z-index:2;
+  }
+  .qv-dots span{
+    width:7px;height:7px;border-radius:50%;background:rgba(42,36,29,.3);
+    cursor:pointer;transition:.25s;
+  }
+  .qv-dots span.active{background:var(--gold);width:20px;border-radius:5px;}
+
+  .qv-details{padding:3em 2.4em 2.6em;}
+  .qv-details h2{font-family:var(--display);font-weight:500;font-size:1.8rem;margin-bottom:.15em;}
+  .qv-tag{font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--taupe);margin-bottom:1em;}
+  .qv-desc{font-size:.88rem;line-height:1.75;color:var(--charcoal);margin-bottom:1.3em;}
+
+  .qv-price-row{display:flex;align-items:baseline;gap:.7em;margin-bottom:1.5em;flex-wrap:wrap;}
+  .qv-price{font-family:var(--display);font-size:1.5rem;color:var(--olive-deep);}
+  .qv-price-original{font-size:.95rem;color:var(--taupe);text-decoration:line-through;}
+  .qv-discount-badge{
+    background:var(--olive-deep);color:var(--cream);
+    font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;
+    padding:.35em .7em;border-radius:20px;
+  }
+
+  .qv-details .option-label{margin-top:0;}
+  .qv-details .swatches{margin-bottom:1.3em;}
+  .qv-details .sizes{margin-bottom:1.6em;}
+  .qv-details .add-bag-btn{margin-top:0;}
+
+  @media(max-width:768px){
+    .qv-modal{grid-template-columns:1fr;}
+    .qv-slider-track,.qv-slider-track img{min-height:300px;}
+  }
+
+  /* ---------- footer (same as homepage) ---------- */
+  footer{background:var(--charcoal);color:#C8BEA8;padding:5em 2.5em 2em;margin-top:2em;}
+  .footer-grid{
+    max-width:1400px;margin:0 auto;
+    display:grid;grid-template-columns:1.4fr repeat(3,1fr);gap:3em;
+    padding-bottom:3.5em;border-bottom:1px solid rgba(255,255,255,.1);
+  }
+  .footer-grid .logo{color:var(--cream);}
+  .footer-grid .logo small{color:#A79A79;}
+  .footer-grid p{font-size:.85rem;line-height:1.8;margin-top:1em;max-width:26em;}
+  .footer-col h5{color:var(--cream);font-size:.75rem;letter-spacing:.16em;text-transform:uppercase;margin-bottom:1.3em;}
+  .footer-col a{display:block;font-size:.85rem;line-height:2.3;color:#C8BEA8;transition:.3s;}
+  .footer-col a:hover{color:var(--gold);}
+  .footer-bottom{
+    max-width:1400px;margin:0 auto;
+    display:flex;justify-content:space-between;align-items:center;
+    padding-top:2em;font-size:.72rem;letter-spacing:.06em;color:#8B8672;
+    flex-wrap:wrap;gap:1em;
+  }
+  .socials{display:flex;gap:1.2em;}
+  .socials a{
+    width:36px;height:36px;border:1px solid rgba(255,255,255,.18);border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .socials svg{width:15px;height:15px;stroke:#C8BEA8;}
+
+  @media(max-width:1024px){
+    .product-grid{grid-template-columns:repeat(2,1fr);}
+  }
+  @media(max-width:768px){
+    .nav-links{display:none;}
+    .burger{display:block;}
+    .footer-grid{grid-template-columns:1fr 1fr;}
+  }
+  @media(max-width:560px){
+    .product-grid{grid-template-columns:1fr;}
+    .footer-grid{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <nav>
+    <div class="logo">Nazaakat<small>By Saniya</small></div>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="Nazaakat.html#home">Home</a></li>
+      <li><a href="Nazaakat.html#categories">Collection</a></li>
+      <li><a href="Nazaakat.html#story">Our Story</a></li>
+      <li><a href="Nazaakat.html#newsletter">Contact</a></li>
+    </ul>
+    <div class="nav-icons">
+      <button aria-label="Search"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.4"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></button>
+      <button aria-label="Account" class="naz-account-btn"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.4"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg></button>
+      <button aria-label="Wishlist" class="naz-wishlist-btn"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.4"><path d="M12 21s-7-4.5-9.5-9C.7 8 2.4 4.5 6 4.5c2 0 3.5 1 6 3.5 2.5-2.5 4-3.5 6-3.5 3.6 0 5.3 3.5 3.5 7.5-2.5 4.5-9.5 9-9.5 9z"/></svg></button>
+      <button aria-label="Bag" class="naz-bag-btn"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.4"><path d="M6 8h12l-1 12H7L6 8z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg></button>
+      <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+</header>
+
+<div class="breadcrumb">
+  <a href="Nazaakat.html#home">Home</a><span>/</span><a href="Nazaakat.html#categories">Collection</a><span>/</span>Quilted Bags
+</div>
+
+<section class="page-hero">
+  <p class="eyebrow" style="justify-content:center">Quilted Bags</p>
+  <h1>Hand-Woven, Made To Carry</h1>
+  <p>Choose your colour and size below — every bag is hand-quilted with a sturdy chain strap and a soft, structured shape.</p>
+</section>
+
+<section class="shop-wrap">
+  <div class="product-grid" id="productGrid"></div>
+</section>
+
+<!-- ===== Quick View Popup (opens when a product image is clicked) ===== -->
+<div class="qv-overlay" id="qvOverlay" onclick="if(event.target===this) closeQuickView()">
+  <div class="qv-modal">
+    <div class="qv-close" onclick="closeQuickView()">&times;</div>
+
+    <div class="qv-slider">
+      <div class="qv-slider-track" id="qvSliderTrack"></div>
+      <button class="qv-arrow prev" id="qvPrev" aria-label="Previous image">&#8249;</button>
+      <button class="qv-arrow next" id="qvNext" aria-label="Next image">&#8250;</button>
+      <div class="qv-dots" id="qvDots"></div>
+    </div>
+
+    <div class="qv-details">
+      <h2 id="qvName"></h2>
+      <div class="qv-tag" id="qvTag"></div>
+      <p class="qv-desc" id="qvDesc"></p>
+
+      <div class="qv-price-row">
+        <span class="qv-price" id="qvPrice"></span>
+        <span class="qv-price-original" id="qvPriceOriginal"></span>
+        <span class="qv-discount-badge" id="qvDiscountBadge"></span>
+      </div>
+
+      <div class="option-label">Colour: <span id="qvColorLabel"></span></div>
+      <div class="swatches" id="qvSwatches"></div>
+
+      <div class="option-label">Size</div>
+      <div class="sizes" id="qvSizes"></div>
+
+      <div style="display:flex;gap:.8em;margin-top:0;">
+        <button class="add-bag-btn" id="qvAddBtn" style="flex:1;">Add to Bag</button>
+        <button class="naz-wish-heart" id="qvWishBtn" aria-label="Add to wishlist" style="position:static;width:46px;height:46px;border:1px solid var(--line);">
+          <svg viewBox="0 0 24 24"><path d="M12 21s-7-4.5-9.5-9C.7 8 2.4 4.5 6 4.5c2 0 3.5 1 6 3.5 2.5-2.5 4-3.5 6-3.5 3.6 0 5.3 3.5 3.5 7.5-2.5 4.5-9.5 9-9.5 9z"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="logo">Nazaakat<small>By Saniya</small></div>
+      <p>Modest wear, woven with grace. Abayas, hijabs and hand-quilted accessories designed in small batches for a quieter kind of luxury.</p>
+      <div class="socials" style="margin-top:1.6em;">
+        <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.4"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg></a>
+        <a href="#" aria-label="WhatsApp"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.4"><path d="M21 11.5a8.5 8.5 0 1 1-4.1-7.3L21 3l-1.1 4A8.46 8.46 0 0 1 21 11.5z"/></svg></a>
+        <a href="#" aria-label="Pinterest"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.4"><circle cx="12" cy="12" r="9"/><path d="M9 17c1-3 1.5-6 1.5-8a2.5 2.5 0 0 1 5 0c0 1.5-1 4-1 5.5a1.5 1.5 0 0 0 3 0"/></svg></a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h5>Shop</h5>
+      <a href="abayas.html">Abayas</a>
+      <a href="hijabs.html">Hijabs</a>
+      <a href="bags.html">Quilted Bags</a>
+      <a href="Nazaakat.html#categories">Accessories</a>
+    </div>
+    <div class="footer-col">
+      <h5>About</h5>
+      <a href="Nazaakat.html#story">Our Story</a>
+      <a href="#">Craftsmanship</a>
+      <a href="#">Size Guide</a>
+      <a href="Nazaakat.html#newsletter">Contact Us</a>
+    </div>
+    <div class="footer-col">
+      <h5>Care</h5>
+      <a href="#">Shipping</a>
+      <a href="#">Returns</a>
+      <a href="#">FAQs</a>
+      <a href="#">Track Order</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Nazaakat by Saniya. All rights reserved.</span>
+    <span>Designed with nazaakat, everywhere.</span>
+  </div>
+</footer>
+
+<script src="nazaakat-shop.js"></script>
+<script>
+  // mobile nav toggle
+  const burger = document.getElementById('burger');
+  const navLinks = document.getElementById('navLinks');
+  burger.addEventListener('click', () => navLinks.classList.toggle('open'));
+
+  /* ============================================================
+     PRODUCT DATA
+     - "image" is the main photo shown on the card.
+     - "gallery" is the full set of photos shown in the Quick View
+       slider when someone clicks the product image — put 3-4 photos
+       of the same piece here (front, side, back, sleeve detail, etc.)
+     - "price" / "originalPrice" are plain numbers (no ₹ or commas) —
+       the discount badge is calculated automatically from these two.
+     ============================================================ */
+  /* ============================================================
+     PRODUCT DATA
+     - "image" is the main photo shown on the card.
+     - "gallery" is the full set of photos shown in the Quick View
+       slider when someone clicks the product image — put 3-4 photos
+       of the same piece here (front, side, interior, strap detail, etc.)
+     - "price" / "originalPrice" are plain numbers (no ₹ or commas) —
+       the discount badge is calculated automatically from these two.
+     ============================================================ */
+  const products = [
+    {
+      image: 'b1.jpeg',
+      gallery: ['b1.jpeg', 'b1-2.jpeg', 'b1-3.jpeg', 'b1-4.jpeg'],
+      name: 'Classic Quilted Tote',
+      tag: 'Hand-Woven',
+      description: 'A hand-quilted tote with a structured base and soft woven texture, finished with a gold-tone chain strap. Roomy enough for everyday essentials, elegant enough for evenings out.',
+      price: 1899,
+      originalPrice: 2399,
+      colors: [
+        { key: 'Navy',   label: 'Navy',   swatch: '#232B45' },
+        { key: 'Wine',   label: 'Wine',   swatch: '#6E1F2A' },
+        { key: 'Cream',  label: 'Cream',  swatch: '#EDE3D0' }
+      ]
+    },
+    {
+      image: 'b2.jpeg',
+      gallery: ['b2.jpeg', 'b2-2.jpeg', 'b2-3.jpeg', 'b2-4.jpeg'],
+      name: 'Woven Crossbody',
+      tag: 'Hand-Knit',
+      description: 'A compact, hand-knit crossbody bag with an adjustable chain strap. Lightweight and easy to style, with a secure clasp closure to keep your essentials in place.',
+      price: 1699,
+      originalPrice: 2099,
+      colors: [
+        { key: 'Black',  label: 'Black',  swatch: '#2A241D' },
+        { key: 'Sand',   label: 'Sand',   swatch: '#C9B79C' },
+        { key: 'Wine',   label: 'Wine',   swatch: '#6E1F2A' }
+      ]
+    },
+    {
+      image: 'b3.jpeg',
+      gallery: ['b3.jpeg', 'b3-2.jpeg', 'b3-3.jpeg', 'b3-4.jpeg'],
+      name: 'Mini Top-Handle Bag',
+      tag: 'Structured Mini',
+      description: 'A petite top-handle bag with a structured silhouette and detachable chain strap, so you can carry it by hand or wear it crossbody depending on the occasion.',
+      price: 1999,
+      originalPrice: 2499,
+      colors: [
+        { key: 'Cream',  label: 'Cream',  swatch: '#EDE3D0' },
+        { key: 'Navy',   label: 'Navy',   swatch: '#232B45' }
+      ]
+    },
+    {
+      image: 'b4.jpeg',
+      gallery: ['b4.jpeg', 'b4-2.jpeg', 'b4-3.jpeg', 'b4-4.jpeg'],
+      name: 'Chain Strap Satchel',
+      tag: 'Everyday Carry',
+      description: 'A mid-size satchel with a woven quilted body and a sturdy gold chain strap, built for daily wear with enough room for a phone, wallet and keys.',
+      price: 2199,
+      originalPrice: 2699,
+      colors: [
+        { key: 'Black',  label: 'Black',  swatch: '#2A241D' },
+        { key: 'Wine',   label: 'Wine',   swatch: '#6E1F2A' },
+        { key: 'Navy',   label: 'Navy',   swatch: '#232B45' }
+      ]
+    },
+    {
+      image: 'b5.jpeg',
+      gallery: ['b5.jpeg', 'b5-2.jpeg', 'b5-3.jpeg', 'b5-4.jpeg'],
+      name: 'Structured Clutch',
+      tag: 'Evening Wear',
+      description: 'A structured hand-woven clutch with a hidden magnetic clasp, sized to carry just the essentials for an evening out. Comes with a slim optional chain strap.',
+      price: 1599,
+      originalPrice: 1999,
+      colors: [
+        { key: 'Cream',  label: 'Cream',  swatch: '#EDE3D0' },
+        { key: 'Wine',   label: 'Wine',   swatch: '#6E1F2A' },
+        { key: 'Black',  label: 'Black',  swatch: '#2A241D' }
+      ]
+    },
+    {
+      image: 'b6.jpeg',
+      gallery: ['b6.jpeg', 'b6-2.jpeg', 'b6-3.jpeg', 'b6-4.jpeg'],
+      name: 'Everyday Shopper',
+      tag: 'Oversized Tote',
+      description: 'A generously sized, hand-woven shopper tote for days when you need to carry a little more. Reinforced handles and a wide base keep it sturdy and shape-holding.',
+      price: 2399,
+      originalPrice: 2899,
+      colors: [
+        { key: 'Navy',   label: 'Navy',   swatch: '#232B45' },
+        { key: 'Sand',   label: 'Sand',   swatch: '#C9B79C' },
+        { key: 'Black',  label: 'Black',  swatch: '#2A241D' }
+      ]
+    }
+  ];
+
+  function formatPrice(n) {
+    return '₹' + n.toLocaleString('en-IN');
+  }
+
+  const sizes = ['Mini','Regular','Large'];
+  const grid = document.getElementById('productGrid');
+  const toast = document.getElementById('toast');
+
+  products.forEach((p, pIndex) => {
+    const card = document.createElement('div');
+    card.className = 'product-card';
+    const wishId = NazaakatShop.slug('CATEGORY-' + p.name);
+
+    const swatchesHtml = p.colors.map((c, i) =>
+      `<div class="swatch ${i===0?'active':''}" style="background:${c.swatch}" data-color="${c.key}" data-label="${c.label}" title="${c.label}"></div>`
+    ).join('');
+
+    const sizesHtml = sizes.map((s, i) =>
+      `<button class="size-btn ${i===1?'active':''}" data-size="${s}">${s}</button>`
+    ).join('');
+
+    card.innerHTML = `
+      <div class="product-img">
+        <img src="${p.image}" alt="${p.name}" data-img>
+        <button class="naz-wish-heart" data-wish-id="${wishId}" aria-label="Add to wishlist">
+          <svg viewBox="0 0 24 24"><path d="M12 21s-7-4.5-9.5-9C.7 8 2.4 4.5 6 4.5c2 0 3.5 1 6 3.5 2.5-2.5 4-3.5 6-3.5 3.6 0 5.3 3.5 3.5 7.5-2.5 4.5-9.5 9-9.5 9z"/></svg>
+        </button>
+      </div>
+      <div class="product-body">
+        <h3>${p.name}</h3>
+        <div class="product-tag">${p.tag}</div>
+        <div class="product-price">${formatPrice(p.price)}</div>
+
+        <div class="option-label">Colour: <span data-color-label>${p.colors[0].label}</span></div>
+        <div class="swatches" data-swatches>${swatchesHtml}</div>
+
+        <div class="option-label">Size</div>
+        <div class="sizes" data-sizes>${sizesHtml}</div>
+
+        <button class="add-bag-btn" data-add>Add to Bag</button>
+      </div>
+    `;
+
+    card.querySelector('.product-img').addEventListener('click', () => openQuickView(pIndex));
+
+    // state for this product
+    let selectedColor = p.colors[0].key;
+    let selectedSize = sizes[1];
+
+    const img = card.querySelector('[data-img]');
+    const colorLabel = card.querySelector('[data-color-label]');
+    const swatchEls = card.querySelectorAll('[data-swatches] .swatch');
+    const sizeEls = card.querySelectorAll('[data-sizes] .size-btn');
+    const addBtn = card.querySelector('[data-add]');
+
+    swatchEls.forEach(sw => {
+      sw.addEventListener('click', () => {
+        swatchEls.forEach(s => s.classList.remove('active'));
+        sw.classList.add('active');
+        selectedColor = sw.dataset.color;
+        colorLabel.textContent = sw.dataset.label;
+        addBtn.classList.remove('added');
+        addBtn.textContent = 'Add to Bag';
+      });
+    });
+
+    sizeEls.forEach(sb => {
+      sb.addEventListener('click', () => {
+        sizeEls.forEach(s => s.classList.remove('active'));
+        sb.classList.add('active');
+        selectedSize = sb.dataset.size;
+        addBtn.classList.remove('added');
+        addBtn.textContent = 'Add to Bag';
+      });
+    });
+
+    addBtn.addEventListener('click', async () => {
+      const cartId = NazaakatShop.slug('Quilted Bags-' + p.name + '-' + selectedColor + '-' + selectedSize);
+      const added = await NazaakatShop.addToCart({
+        productId: cartId,
+        name: p.name,
+        image: p.image,
+        price: p.price,
+        color: selectedColor,
+        size: selectedSize,
+        category: 'Quilted Bags',
+        qty: 1
+      });
+      if (added) {
+        addBtn.classList.add('added');
+        addBtn.textContent = 'Added ✓';
+        showToast(`${p.name} · ${selectedColor} · ${selectedSize} added to bag`);
+      }
+    });
+
+    const wishBtn = card.querySelector('[data-wish-id]');
+    wishBtn.addEventListener('click', async (e) => {
+      e.stopPropagation();
+      await NazaakatShop.toggleWishlist({
+        productId: wishId,
+        name: p.name,
+        image: p.image,
+        price: p.price,
+        category: 'Quilted Bags'
+      });
+    });
+
+    grid.appendChild(card);
+  });
+
+  NazaakatShop.ready.then(() => {
+    document.querySelectorAll('#productGrid [data-wish-id]').forEach(btn => {
+      if (NazaakatShop.isWishlisted(btn.dataset.wishId)) btn.classList.add('active');
+    });
+  });
+
+  function showToast(msg) {
+    toast.textContent = msg;
+    toast.classList.add('show');
+    clearTimeout(showToast._t);
+    showToast._t = setTimeout(() => toast.classList.remove('show'), 2200);
+  }
+
+  /* ============================================================
+     QUICK VIEW POPUP
+     ============================================================ */
+  const qvOverlay = document.getElementById('qvOverlay');
+  const qvSliderTrack = document.getElementById('qvSliderTrack');
+  const qvDots = document.getElementById('qvDots');
+  const qvPrev = document.getElementById('qvPrev');
+  const qvNext = document.getElementById('qvNext');
+  const qvName = document.getElementById('qvName');
+  const qvTag = document.getElementById('qvTag');
+  const qvDesc = document.getElementById('qvDesc');
+  const qvPrice = document.getElementById('qvPrice');
+  const qvPriceOriginal = document.getElementById('qvPriceOriginal');
+  const qvDiscountBadge = document.getElementById('qvDiscountBadge');
+  const qvColorLabel = document.getElementById('qvColorLabel');
+  const qvSwatches = document.getElementById('qvSwatches');
+  const qvSizes = document.getElementById('qvSizes');
+  const qvAddBtn = document.getElementById('qvAddBtn');
+  const qvWishBtn = document.getElementById('qvWishBtn');
+
+  let qvProduct = null;
+  let qvSlideIndex = 0;
+  let qvSelectedColor = null;
+  let qvSelectedSize = sizes[1];
+
+  async function openQuickView(index) {
+    await NazaakatShop.ready;
+    qvProduct = products[index];
+    qvSlideIndex = 0;
+    qvSelectedColor = qvProduct.colors[0].key;
+    qvSelectedSize = sizes[1];
+
+    // slider images
+    qvSliderTrack.innerHTML = qvProduct.gallery.map((src, i) =>
+      `<img src="${src}" alt="${qvProduct.name} view ${i + 1}" class="${i === 0 ? 'active' : ''}">`
+    ).join('');
+    qvDots.innerHTML = qvProduct.gallery.map((_, i) =>
+      `<span class="${i === 0 ? 'active' : ''}" data-dot="${i}"></span>`
+    ).join('');
+    qvDots.querySelectorAll('span').forEach(dot => {
+      dot.addEventListener('click', () => goToQvSlide(parseInt(dot.dataset.dot)));
+    });
+
+    // text + price
+    qvName.textContent = qvProduct.name;
+    qvTag.textContent = qvProduct.tag;
+    qvDesc.textContent = qvProduct.description;
+    renderQvPrice();
+
+    // colour swatches
+    qvColorLabel.textContent = qvProduct.colors[0].label;
+    qvSwatches.innerHTML = qvProduct.colors.map((c, i) =>
+      `<div class="swatch ${i === 0 ? 'active' : ''}" style="background:${c.swatch}" data-color="${c.key}" data-label="${c.label}" title="${c.label}"></div>`
+    ).join('');
+    qvSwatches.querySelectorAll('.swatch').forEach(sw => {
+      sw.addEventListener('click', () => {
+        qvSwatches.querySelectorAll('.swatch').forEach(s => s.classList.remove('active'));
+        sw.classList.add('active');
+        qvSelectedColor = sw.dataset.color;
+        qvColorLabel.textContent = sw.dataset.label;
+        resetQvAddBtn();
+      });
+    });
+
+    // sizes
+    qvSizes.innerHTML = sizes.map((s, i) =>
+      `<button class="size-btn ${i === 1 ? 'active' : ''}" data-size="${s}">${s}</button>`
+    ).join('');
+    qvSizes.querySelectorAll('.size-btn').forEach(sb => {
+      sb.addEventListener('click', () => {
+        qvSizes.querySelectorAll('.size-btn').forEach(s => s.classList.remove('active'));
+        sb.classList.add('active');
+        qvSelectedSize = sb.dataset.size;
+        resetQvAddBtn();
+      });
+    });
+
+    resetQvAddBtn();
+    const qvWishId = NazaakatShop.slug('Quilted Bags-' + qvProduct.name);
+    qvWishBtn.dataset.wishId = qvWishId;
+    qvWishBtn.classList.toggle('active', NazaakatShop.isWishlisted(qvWishId));
+    qvOverlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function renderQvPrice() {
+    qvPrice.textContent = formatPrice(qvProduct.price);
+    if (qvProduct.originalPrice && qvProduct.originalPrice > qvProduct.price) {
+      qvPriceOriginal.textContent = formatPrice(qvProduct.originalPrice);
+      const pct = Math.round((1 - qvProduct.price / qvProduct.originalPrice) * 100);
+      qvDiscountBadge.textContent = pct + '% Off';
+      qvPriceOriginal.style.display = 'inline';
+      qvDiscountBadge.style.display = 'inline-block';
+    } else {
+      qvPriceOriginal.style.display = 'none';
+      qvDiscountBadge.style.display = 'none';
+    }
+  }
+
+  function resetQvAddBtn() {
+    qvAddBtn.classList.remove('added');
+    qvAddBtn.textContent = 'Add to Bag';
+  }
+
+  function goToQvSlide(i) {
+    const imgs = qvSliderTrack.querySelectorAll('img');
+    const dots = qvDots.querySelectorAll('span');
+    imgs[qvSlideIndex].classList.remove('active');
+    dots[qvSlideIndex].classList.remove('active');
+    qvSlideIndex = (i + imgs.length) % imgs.length;
+    imgs[qvSlideIndex].classList.add('active');
+    dots[qvSlideIndex].classList.add('active');
+  }
+
+  qvPrev.addEventListener('click', () => goToQvSlide(qvSlideIndex - 1));
+  qvNext.addEventListener('click', () => goToQvSlide(qvSlideIndex + 1));
+
+  qvWishBtn.addEventListener('click', async () => {
+    const added = await NazaakatShop.toggleWishlist({
+      productId: qvWishBtn.dataset.wishId,
+      name: qvProduct.name,
+      image: qvProduct.image,
+      price: qvProduct.price,
+      category: 'Quilted Bags'
+    });
+    qvWishBtn.classList.toggle('active', added);
+  });
+
+  qvAddBtn.addEventListener('click', async () => {
+    const cartId = NazaakatShop.slug('Quilted Bags-' + qvProduct.name + '-' + qvSelectedColor + '-' + qvSelectedSize);
+    const added = await NazaakatShop.addToCart({
+      productId: cartId,
+      name: qvProduct.name,
+      image: qvProduct.image,
+      price: qvProduct.price,
+      color: qvSelectedColor,
+      size: qvSelectedSize,
+      category: 'Quilted Bags',
+      qty: 1
+    });
+    if (added) {
+      qvAddBtn.classList.add('added');
+      qvAddBtn.textContent = 'Added ✓';
+      showToast(`${qvProduct.name} · ${qvSelectedColor} · ${qvSelectedSize} added to bag`);
+    }
+  });
+
+  function closeQuickView() {
+    qvOverlay.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeQuickView();
+  });
+</script>
+
+</body>
+</html>

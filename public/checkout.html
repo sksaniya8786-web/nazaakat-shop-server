@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checkout — Nazaakat by Saniya</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#F5EEE2; --cream-deep:#EBE0CC; --paper:#FBF8F2;
+    --olive:#6E7350; --olive-deep:#535731; --rose:#C89B92; --taupe:#8B7059;
+    --charcoal:#2A241D; --gold:#B08D4F; --line: rgba(42,36,29,0.14);
+    --display: 'Cormorant Garamond', serif; --body: 'Jost', sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:var(--cream);color:var(--charcoal);font-family:var(--body);font-weight:300;min-height:100vh;}
+  a{text-decoration:none;color:inherit;}
+
+  header{padding:1.3em 2.5em;border-bottom:1px solid var(--line);background:rgba(245,238,226,.92);}
+  .logo{font-family:var(--display);font-size:1.6rem;display:inline-flex;flex-direction:column;line-height:1;}
+  .logo small{font-family:var(--body);font-size:.56rem;letter-spacing:.3em;text-transform:uppercase;color:var(--taupe);margin-top:.32em;}
+
+  main{max-width:1100px;margin:0 auto;padding:2.6em 2em 5em;display:grid;grid-template-columns:1.3fr 1fr;gap:3.5em;}
+  @media(max-width:860px){ main{grid-template-columns:1fr;padding:1.8em 1.2em 4em;gap:2.2em;} }
+
+  h2{font-family:var(--display);font-weight:500;font-size:1.4rem;margin-bottom:1em;}
+  .field{margin-bottom:1.1em;}
+  .field label{display:block;font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--taupe);margin-bottom:.5em;}
+  .field input, .field select{
+    width:100%;padding:.85em 1em;border:1px solid var(--line);border-radius:8px;
+    background:var(--paper);font-family:var(--body);font-size:.92rem;color:var(--charcoal);outline:none;
+  }
+  .field input:focus, .field select:focus{border-color:var(--gold);}
+  .row-2{display:grid;grid-template-columns:1fr 1fr;gap:1em;}
+  .row-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1em;}
+  @media(max-width:480px){ .row-2, .row-3{grid-template-columns:1fr;} }
+
+  .pay-options{display:flex;flex-direction:column;gap:.9em;margin-bottom:1.6em;}
+  .pay-option{
+    border:1px solid var(--line);border-radius:10px;padding:1.1em 1.3em;
+    display:flex;align-items:center;gap:1em;cursor:pointer;background:var(--paper);position:relative;
+  }
+  .pay-option.selected{border-color:var(--gold);background:var(--cream-deep);}
+  .pay-option.disabled{opacity:.55;cursor:not-allowed;}
+  .pay-option input{accent-color:var(--charcoal);width:18px;height:18px;}
+  .pay-option .pay-label{font-size:.95rem;color:var(--charcoal);}
+  .pay-option .pay-tag{
+    margin-left:auto;font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;
+    background:var(--olive-deep);color:var(--cream);padding:.3em .7em;border-radius:20px;
+  }
+
+  .summary-card{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:1.6em 1.7em;position:sticky;top:1.5em;}
+  .summary-item{display:flex;gap:.9em;padding:.9em 0;border-bottom:1px solid var(--line);}
+  .summary-item img{width:60px;height:74px;object-fit:cover;border-radius:6px;background:var(--cream-deep);}
+  .summary-item-info{flex:1;}
+  .summary-item-info h4{font-family:var(--display);font-size:1rem;font-weight:600;}
+  .summary-item-info .meta{font-size:.7rem;color:var(--taupe);text-transform:uppercase;letter-spacing:.06em;margin:.2em 0;}
+  .summary-item-info .price{font-family:var(--display);color:var(--olive-deep);}
+  .totals{margin-top:1.2em;font-size:.9rem;}
+  .totals div{display:flex;justify-content:space-between;padding:.4em 0;color:var(--taupe);}
+  .totals .grand{font-family:var(--display);font-size:1.3rem;color:var(--charcoal);border-top:1px solid var(--line);margin-top:.5em;padding-top:.8em;}
+
+  .place-order-btn{
+    width:100%;padding:1.05em;background:var(--charcoal);color:var(--cream);border:none;border-radius:8px;
+    font-size:.8rem;letter-spacing:.16em;text-transform:uppercase;cursor:pointer;margin-top:1.4em;
+  }
+  .place-order-btn:hover{background:var(--olive-deep);}
+  .place-order-btn:disabled{opacity:.55;cursor:not-allowed;}
+
+  .form-msg{font-size:.85rem;margin-top:1em;text-align:center;display:none;}
+  .form-msg.show{display:block;}
+  .empty-state{text-align:center;padding:4em 1em;color:var(--taupe);}
+  .empty-state a{color:var(--olive-deep);text-decoration:underline;}
+</style>
+</head>
+<body>
+
+<header><a href="Nazaakat.html" class="logo">Nazaakat<small>By Saniya</small></a></header>
+
+<main id="checkoutMain">
+  <section>
+    <h2>Delivery Address</h2>
+    <form id="checkoutForm">
+      <div class="row-2">
+        <div class="field"><label for="name">Full Name</label><input type="text" id="name" required></div>
+        <div class="field"><label for="phone">Phone Number</label><input type="tel" id="phone" required></div>
+      </div>
+      <div class="field"><label for="address">Address</label><input type="text" id="address" placeholder="House no., street, area" required></div>
+      <div class="field"><label for="apartment">Apartment, suite, etc. (optional)</label><input type="text" id="apartment"></div>
+      <div class="row-3">
+        <div class="field"><label for="city">City</label><input type="text" id="city" required></div>
+        <div class="field"><label for="state">State</label><input type="text" id="state" required></div>
+        <div class="field"><label for="pincode">PIN Code</label><input type="text" id="pincode" required></div>
+      </div>
+
+      <h2 style="margin-top:1.6em;">Payment Method</h2>
+      <div class="pay-options">
+        <label class="pay-option selected" id="codOption">
+          <input type="radio" name="paymentMethod" value="cod" checked>
+          <span class="pay-label">Cash on Delivery</span>
+          <span class="pay-tag">Available</span>
+        </label>
+        <label class="pay-option disabled">
+          <input type="radio" name="paymentMethod" value="upi" disabled>
+          <span class="pay-label">UPI / GPay</span>
+          <span class="pay-tag" style="background:var(--taupe);">Coming Soon</span>
+        </label>
+        <label class="pay-option disabled">
+          <input type="radio" name="paymentMethod" value="card" disabled>
+          <span class="pay-label">Credit / Debit Card</span>
+          <span class="pay-tag" style="background:var(--taupe);">Coming Soon</span>
+        </label>
+      </div>
+
+      <button type="submit" class="place-order-btn" id="placeOrderBtn">Place Order</button>
+      <p class="form-msg" id="checkoutMsg"></p>
+    </form>
+  </section>
+
+  <aside>
+    <div class="summary-card">
+      <h2>Order Summary</h2>
+      <div id="summaryItems"></div>
+      <div class="totals" id="summaryTotals"></div>
+    </div>
+  </aside>
+</main>
+
+<script src="nazaakat-shop.js"></script>
+<script>
+  (async function init() {
+    if (!(await NazaakatShop.requireLogin('Please sign in to check out.'))) return;
+    await NazaakatShop.refreshCart();
+    const items = NazaakatShop.getCart();
+
+    if (items.length === 0) {
+      document.getElementById('checkoutMain').innerHTML =
+        '<div class="empty-state" style="grid-column:1/-1;">Your bag is empty. <a href="Nazaakat.html">Continue shopping</a></div>';
+      return;
+    }
+
+    const itemsEl = document.getElementById('summaryItems');
+    itemsEl.innerHTML = items.map(it => `
+      <div class="summary-item">
+        <img src="${it.image}" alt="${it.name}">
+        <div class="summary-item-info">
+          <h4>${it.name}</h4>
+          <div class="meta">${[it.color, it.size].filter(Boolean).join(' · ')} · Qty ${it.qty}</div>
+          <div class="price">${NazaakatShop.formatINR(it.price * it.qty)}</div>
+        </div>
+      </div>`).join('');
+
+    const subtotal = items.reduce((s, i) => s + i.price * i.qty, 0);
+    document.getElementById('summaryTotals').innerHTML = `
+      <div><span>Subtotal</span><span>${NazaakatShop.formatINR(subtotal)}</span></div>
+      <div><span>Shipping</span><span>Calculated on delivery</span></div>
+      <div class="grand"><span>Total</span><span>${NazaakatShop.formatINR(subtotal)}</span></div>
+    `;
+
+    document.querySelectorAll('input[name="paymentMethod"]').forEach(radio => {
+      radio.addEventListener('change', () => {
+        document.querySelectorAll('.pay-option').forEach(o => o.classList.remove('selected'));
+        radio.closest('.pay-option').classList.add('selected');
+      });
+    });
+
+    document.getElementById('checkoutForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const msg = document.getElementById('checkoutMsg');
+      const btn = document.getElementById('placeOrderBtn');
+      btn.disabled = true;
+      btn.textContent = 'Placing order…';
+
+      const address = {
+        name: document.getElementById('name').value,
+        phone: document.getElementById('phone').value,
+        address: document.getElementById('address').value,
+        apartment: document.getElementById('apartment').value,
+        city: document.getElementById('city').value,
+        state: document.getElementById('state').value,
+        pincode: document.getElementById('pincode').value
+      };
+      const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
+
+      const data = await NazaakatShop.checkout({ paymentMethod, address });
+      msg.classList.add('show');
+      if (data.ok) {
+        msg.style.color = 'var(--olive-deep)';
+        msg.textContent = `Order #${data.order.id} placed! It's now Pending — Nazaakat will confirm it shortly.`;
+        setTimeout(() => { location.href = 'Nazaakat.html'; }, 1800);
+      } else {
+        msg.style.color = '#B23A3A';
+        msg.textContent = data.error || 'Something went wrong placing your order.';
+        btn.disabled = false;
+        btn.textContent = 'Place Order';
+      }
+    });
+  })();
+</script>
+
+</body>
+</html>

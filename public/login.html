@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login / Register — Nazaakat by Saniya</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#F5EEE2;
+    --cream-deep:#EBE0CC;
+    --paper:#FBF8F2;
+    --olive:#6E7350;
+    --olive-deep:#535731;
+    --rose:#C89B92;
+    --taupe:#8B7059;
+    --charcoal:#2A241D;
+    --gold:#B08D4F;
+    --line: rgba(42,36,29,0.14);
+    --display: 'Cormorant Garamond', serif;
+    --body: 'Jost', sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{
+    background:var(--cream);
+    color:var(--charcoal);
+    font-family:var(--body);
+    font-weight:300;
+    -webkit-font-smoothing:antialiased;
+    min-height:100vh;
+    display:flex;flex-direction:column;
+  }
+  a{text-decoration:none;color:inherit;}
+
+  header{
+    padding:1.4em 2.5em;
+    border-bottom:1px solid var(--line);
+    background:rgba(245,238,226,.92);
+  }
+  .logo{
+    font-family:var(--display);
+    font-size:1.7rem;
+    letter-spacing:.02em;
+    display:inline-flex;flex-direction:column;line-height:1;
+  }
+  .logo small{
+    font-family:var(--body);
+    font-size:.58rem;
+    letter-spacing:.32em;
+    text-transform:uppercase;
+    color:var(--taupe);
+    margin-top:.35em;
+  }
+
+  main{
+    flex:1;
+    display:flex;align-items:center;justify-content:center;
+    padding:4em 1.5em;
+  }
+  .auth-card{
+    width:100%;max-width:430px;
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:3em 2.6em 2.6em;
+  }
+  .eyebrow{
+    font-size:.7rem;
+    letter-spacing:.28em;
+    text-transform:uppercase;
+    color:var(--olive-deep);
+    display:flex;align-items:center;gap:.6em;
+    justify-content:center;
+    margin-bottom:1em;
+  }
+  .eyebrow::before, .eyebrow::after{
+    content:'';width:22px;height:1px;background:var(--gold);
+  }
+  .auth-card h1{
+    font-family:var(--display);
+    font-weight:500;
+    font-size:2rem;
+    text-align:center;
+    margin-bottom:.3em;
+  }
+  .auth-card > p.sub{
+    text-align:center;color:var(--taupe);font-size:.9rem;margin-bottom:2em;
+  }
+
+  .tabs{
+    display:flex;border-bottom:1px solid var(--line);margin-bottom:2em;
+  }
+  .tab{
+    flex:1;text-align:center;padding:.9em 0;
+    font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;
+    cursor:pointer;color:var(--taupe);
+    border-bottom:2px solid transparent;
+    transition:.3s ease;
+    background:none;
+  }
+  .tab.active{color:var(--charcoal);border-bottom-color:var(--gold);}
+
+  .field{
+    border-bottom:1px solid var(--line);
+    margin-bottom:1.5em;
+    padding-bottom:.4em;
+  }
+  .field label{
+    display:block;font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--taupe);margin-bottom:.5em;
+  }
+  .field input{
+    width:100%;border:none;outline:none;background:none;
+    font-family:var(--body);font-size:.95rem;color:var(--charcoal);
+    padding:.35em 0;
+  }
+  .field input::placeholder{color:#B9AF97;}
+
+  .form-panel{display:none;}
+  .form-panel.active{display:block;}
+
+  .row-between{
+    display:flex;justify-content:space-between;align-items:center;
+    font-size:.8rem;color:var(--taupe);margin:-.6em 0 1.8em;
+  }
+  .row-between a{color:var(--olive-deep);}
+  .row-between a:hover{color:var(--gold);}
+
+  .checkbox-row{
+    display:flex;align-items:center;gap:.6em;
+    font-size:.82rem;color:var(--taupe);margin-bottom:1.8em;
+  }
+
+  .btn-submit{
+    width:100%;
+    font-family:var(--body);font-size:.78rem;letter-spacing:.18em;text-transform:uppercase;
+    padding:1em;
+    border:1px solid var(--charcoal);
+    background:var(--charcoal);color:var(--cream);
+    cursor:pointer;transition:.35s ease;
+  }
+  .btn-submit:hover{background:var(--olive-deep);border-color:var(--olive-deep);}
+
+  .form-msg{
+    text-align:center;font-size:.82rem;margin-top:1.3em;color:var(--olive-deep);
+    display:none;
+  }
+  .form-msg.show{display:block;}
+
+  .switch-line{
+    text-align:center;font-size:.85rem;color:var(--taupe);margin-top:2em;
+  }
+  .switch-line button{
+    background:none;border:none;color:var(--olive-deep);cursor:pointer;
+    font-family:var(--body);font-size:.85rem;text-decoration:underline;
+    text-underline-offset:3px;
+  }
+
+  .back-home{
+    display:block;text-align:center;margin-top:1.6em;
+    font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--taupe);
+  }
+  .back-home:hover{color:var(--gold);}
+
+  @media(max-width:480px){
+    .auth-card{padding:2.4em 1.6em 2em;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a href="Nazaakat.html" class="logo">Nazaakat<small>By Saniya</small></a>
+</header>
+
+<main>
+  <div class="auth-card">
+    <p class="eyebrow">Your Account</p>
+    <h1 id="cardTitle">Welcome Back</h1>
+    <p class="sub" id="cardSub">Sign in to track orders and save your favourites.</p>
+
+    <div class="tabs">
+      <button class="tab active" id="tabLogin">Login</button>
+      <button class="tab" id="tabRegister">Register</button>
+    </div>
+
+    <!-- LOGIN -->
+    <form class="form-panel active" id="loginForm">
+      <div class="field">
+        <label for="loginEmail">Email Address</label>
+        <input type="email" id="loginEmail" placeholder="you@example.com" required>
+      </div>
+      <div class="field">
+        <label for="loginPassword">Password</label>
+        <input type="password" id="loginPassword" placeholder="••••••••" required>
+      </div>
+      <div class="row-between">
+        <label class="checkbox-row" style="margin:0;"><input type="checkbox" id="rememberMe"> Remember me</label>
+        <a href="#" id="forgotPasswordLink">Forgot password?</a>
+      </div>
+      <button type="submit" class="btn-submit">Sign In</button>
+      <p class="form-msg" id="loginMsg">Welcome back — you're signed in.</p>
+    </form>
+
+    <!-- FORGOT PASSWORD -->
+    <form class="form-panel" id="forgotForm">
+      <p class="sub" style="margin-top:-.4em;text-align:left;">Enter your email and the phone number on your account, then choose a new password.</p>
+      <div class="field">
+        <label for="forgotEmail">Email Address</label>
+        <input type="email" id="forgotEmail" placeholder="you@example.com" required>
+      </div>
+      <div class="field">
+        <label for="forgotPhone">Phone Number on File</label>
+        <input type="tel" id="forgotPhone" placeholder="+91 00000 00000" required>
+      </div>
+      <div class="field">
+        <label for="forgotNewPassword">New Password</label>
+        <input type="password" id="forgotNewPassword" placeholder="At least 6 characters" minlength="6" required>
+      </div>
+      <button type="submit" class="btn-submit">Reset Password</button>
+      <p class="form-msg" id="forgotMsg"></p>
+      <p class="switch-line" style="margin-top:1.4em;"><button type="button" id="backToLoginFromForgot">← Back to Sign In</button></p>
+    </form>
+
+    <!-- REGISTER -->
+    <form class="form-panel" id="registerForm">
+      <div class="field">
+        <label for="regName">Full Name</label>
+        <input type="text" id="regName" placeholder="Your name" required>
+      </div>
+      <div class="field">
+        <label for="regEmail">Email Address</label>
+        <input type="email" id="regEmail" placeholder="you@example.com" required>
+      </div>
+      <div class="field">
+        <label for="regPhone">Phone Number</label>
+        <input type="tel" id="regPhone" placeholder="+91 00000 00000" pattern="[0-9+ ]{7,15}" required>
+      </div>
+      <div class="field">
+        <label for="regPassword">Password</label>
+        <input type="password" id="regPassword" placeholder="Create a password" minlength="6" required>
+      </div>
+      <label class="checkbox-row"><input type="checkbox" required> I agree to the Terms & Privacy Policy</label>
+      <button type="submit" class="btn-submit">Create Account</button>
+      <p class="form-msg" id="registerMsg">Account created — welcome to Nazaakat.</p>
+    </form>
+
+    <p class="switch-line" id="switchLine">
+      New here? <button type="button" id="switchToRegister">Create an account</button>
+    </p>
+
+    <a href="Nazaakat.html" class="back-home">← Back to Home</a>
+  </div>
+</main>
+
+<script src="nazaakat-shop.js"></script>
+<script>
+  const tabLogin = document.getElementById('tabLogin');
+  const tabRegister = document.getElementById('tabRegister');
+  const loginForm = document.getElementById('loginForm');
+  const registerForm = document.getElementById('registerForm');
+  const forgotForm = document.getElementById('forgotForm');
+  const cardTitle = document.getElementById('cardTitle');
+  const cardSub = document.getElementById('cardSub');
+  const switchLine = document.getElementById('switchLine');
+  const switchToRegister = document.getElementById('switchToRegister');
+
+  // If already signed in, greet them and offer quick links instead of forms
+  (async function checkExistingSession() {
+    await NazaakatShop.ready;
+    const user = NazaakatShop.currentUser();
+    if (!user) return;
+    cardTitle.textContent = `Welcome, ${user.name.split(' ')[0]}`;
+    cardSub.textContent = `You're signed in as ${user.email}.`;
+    document.querySelector('.tabs').style.display = 'none';
+    loginForm.style.display = 'none';
+    registerForm.style.display = 'none';
+    switchLine.innerHTML = `
+      <a href="${NazaakatShop.consumeRedirect() || 'Nazaakat.html'}" style="display:block;margin-bottom:.8em;color:var(--olive-deep);text-decoration:underline;">Continue shopping →</a>
+      <button type="button" id="signOutBtn">Sign Out</button>
+    `;
+    document.getElementById('signOutBtn').addEventListener('click', () => NazaakatShop.logout());
+  })();
+
+  function showLogin(){
+    document.querySelector('.tabs').style.display = 'flex';
+    switchLine.style.display = 'block';
+    tabLogin.classList.add('active');
+    tabRegister.classList.remove('active');
+    loginForm.classList.add('active');
+    registerForm.classList.remove('active');
+    forgotForm.classList.remove('active');
+    cardTitle.textContent = 'Welcome Back';
+    cardSub.textContent = 'Sign in to track orders and save your favourites.';
+    switchLine.innerHTML = 'New here? <button type="button" id="switchToRegister">Create an account</button>';
+    document.getElementById('switchToRegister').addEventListener('click', showRegister);
+  }
+  function showRegister(){
+    document.querySelector('.tabs').style.display = 'flex';
+    switchLine.style.display = 'block';
+    tabRegister.classList.add('active');
+    tabLogin.classList.remove('active');
+    registerForm.classList.add('active');
+    loginForm.classList.remove('active');
+    forgotForm.classList.remove('active');
+    cardTitle.textContent = 'Join Nazaakat';
+    cardSub.textContent = 'Create an account for a faster checkout and order history.';
+    switchLine.innerHTML = 'Already a member? <button type="button" id="switchToLogin">Sign in</button>';
+    document.getElementById('switchToLogin').addEventListener('click', showLogin);
+  }
+  function showForgot(){
+    document.querySelector('.tabs').style.display = 'none';
+    switchLine.style.display = 'none';
+    loginForm.classList.remove('active');
+    registerForm.classList.remove('active');
+    forgotForm.classList.add('active');
+    cardTitle.textContent = 'Reset Password';
+    cardSub.textContent = 'We\'ll verify your account, then let you set a new password.';
+  }
+
+  document.getElementById('forgotPasswordLink').addEventListener('click', (e) => {
+    e.preventDefault();
+    showForgot();
+  });
+  document.getElementById('backToLoginFromForgot').addEventListener('click', showLogin);
+
+  document.getElementById('forgotForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const msg = document.getElementById('forgotMsg');
+    const submitBtn = forgotForm.querySelector('.btn-submit');
+    submitBtn.disabled = true;
+    const result = await NazaakatShop.resetPassword({
+      email: document.getElementById('forgotEmail').value,
+      phone: document.getElementById('forgotPhone').value,
+      newPassword: document.getElementById('forgotNewPassword').value
+    });
+    submitBtn.disabled = false;
+    msg.classList.add('show');
+    if (result.ok) {
+      msg.style.color = 'var(--olive-deep)';
+      msg.textContent = 'Password updated! You can sign in now.';
+      forgotForm.reset();
+      setTimeout(showLogin, 1200);
+    } else {
+      msg.style.color = '#B23A3A';
+      msg.textContent = result.error;
+    }
+  });
+
+  tabLogin.addEventListener('click', showLogin);
+  tabRegister.addEventListener('click', showRegister);
+  switchToRegister.addEventListener('click', showRegister);
+
+  function goAfterAuth() {
+    const redirect = NazaakatShop.consumeRedirect();
+    setTimeout(() => { location.href = redirect || 'Nazaakat.html'; }, 900);
+  }
+
+  loginForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const msg = document.getElementById('loginMsg');
+    const submitBtn = loginForm.querySelector('.btn-submit');
+    submitBtn.disabled = true;
+    const result = await NazaakatShop.login({
+      email: document.getElementById('loginEmail').value,
+      password: document.getElementById('loginPassword').value
+    });
+    submitBtn.disabled = false;
+    msg.classList.add('show');
+    if (result.ok) {
+      msg.style.color = 'var(--olive-deep)';
+      msg.textContent = "Welcome back — you're signed in.";
+      loginForm.reset();
+      goAfterAuth();
+    } else {
+      msg.style.color = '#B23A3A';
+      msg.textContent = result.error;
+    }
+  });
+
+  registerForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const msg = document.getElementById('registerMsg');
+    const submitBtn = registerForm.querySelector('.btn-submit');
+    submitBtn.disabled = true;
+    const result = await NazaakatShop.register({
+      name: document.getElementById('regName').value,
+      email: document.getElementById('regEmail').value,
+      phone: document.getElementById('regPhone').value,
+      password: document.getElementById('regPassword').value
+    });
+    submitBtn.disabled = false;
+    msg.classList.add('show');
+    if (result.ok) {
+      msg.style.color = 'var(--olive-deep)';
+      msg.textContent = 'Account created — welcome to Nazaakat.';
+      registerForm.reset();
+      goAfterAuth();
+    } else {
+      msg.style.color = '#B23A3A';
+      msg.textContent = result.error;
+    }
+  });
+</script>
+
+</body>
+</html>
