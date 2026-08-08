@@ -117,6 +117,13 @@
   }
   .field input::placeholder{color:#B9AF97;}
 
+  .pw-wrap{position:relative;display:flex;align-items:center;}
+  .pw-wrap input{padding-right:2.1em;}
+  .pw-toggle{position:absolute;right:0;background:none;border:none;cursor:pointer;color:var(--taupe);padding:.2em;display:flex;align-items:center;}
+  .pw-toggle:hover{color:var(--charcoal);}
+  .pw-toggle svg{width:18px;height:18px;}
+  .pw-toggle .eye-closed{display:none;}
+
   .form-panel{display:none;}
   .form-panel.active{display:block;}
 
@@ -193,7 +200,7 @@
       </div>
       <div class="field">
         <label for="loginPassword">Password</label>
-        <input type="password" id="loginPassword" placeholder="••••••••" required>
+        <div class="pw-wrap"><input type="password" id="loginPassword" placeholder="••••••••" required><button type="button" class="pw-toggle" data-target="loginPassword" aria-label="Show password"><svg class="eye-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg><svg class="eye-closed" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M17.94 17.94A10.94 10.94 0 0 1 12 19c-7 0-11-7-11-7a21.4 21.4 0 0 1 5.06-5.94M9.9 4.24A10.94 10.94 0 0 1 12 4c7 0 11 7 11 7a21.4 21.4 0 0 1-2.16 3.19M14.12 14.12a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg></button></div>
       </div>
       <div class="row-between">
         <label class="checkbox-row" style="margin:0;"><input type="checkbox" id="rememberMe"> Remember me</label>
@@ -216,7 +223,7 @@
       </div>
       <div class="field">
         <label for="forgotNewPassword">New Password</label>
-        <input type="password" id="forgotNewPassword" placeholder="At least 6 characters" minlength="6" required>
+        <div class="pw-wrap"><input type="password" id="forgotNewPassword" placeholder="At least 6 characters" minlength="6" required><button type="button" class="pw-toggle" data-target="forgotNewPassword" aria-label="Show password"><svg class="eye-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg><svg class="eye-closed" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M17.94 17.94A10.94 10.94 0 0 1 12 19c-7 0-11-7-11-7a21.4 21.4 0 0 1 5.06-5.94M9.9 4.24A10.94 10.94 0 0 1 12 4c7 0 11 7 11 7a21.4 21.4 0 0 1-2.16 3.19M14.12 14.12a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg></button></div>
       </div>
       <button type="submit" class="btn-submit">Reset Password</button>
       <p class="form-msg" id="forgotMsg"></p>
@@ -239,7 +246,7 @@
       </div>
       <div class="field">
         <label for="regPassword">Password</label>
-        <input type="password" id="regPassword" placeholder="Create a password" minlength="6" required>
+        <div class="pw-wrap"><input type="password" id="regPassword" placeholder="Create a password" minlength="6" required><button type="button" class="pw-toggle" data-target="regPassword" aria-label="Show password"><svg class="eye-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg><svg class="eye-closed" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M17.94 17.94A10.94 10.94 0 0 1 12 19c-7 0-11-7-11-7a21.4 21.4 0 0 1 5.06-5.94M9.9 4.24A10.94 10.94 0 0 1 12 4c7 0 11 7 11 7a21.4 21.4 0 0 1-2.16 3.19M14.12 14.12a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg></button></div>
       </div>
       <label class="checkbox-row"><input type="checkbox" required> I agree to the Terms & Privacy Policy</label>
       <button type="submit" class="btn-submit">Create Account</button>
@@ -401,6 +408,16 @@
       msg.style.color = '#B23A3A';
       msg.textContent = result.error;
     }
+  });
+  document.querySelectorAll('.pw-toggle').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const input = document.getElementById(btn.dataset.target);
+      const isHidden = input.type === 'password';
+      input.type = isHidden ? 'text' : 'password';
+      btn.querySelector('.eye-open').style.display = isHidden ? 'none' : 'block';
+      btn.querySelector('.eye-closed').style.display = isHidden ? 'block' : 'none';
+      btn.setAttribute('aria-label', isHidden ? 'Hide password' : 'Show password');
+    });
   });
 </script>
 

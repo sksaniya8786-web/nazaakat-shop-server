@@ -80,6 +80,12 @@ db.exec(`
     size TEXT,
     category TEXT
   );
+  CREATE TABLE IF NOT EXISTS geocode_cache (
+    query TEXT PRIMARY KEY,
+    lat REAL,
+    lng REAL,
+    fetched_at TEXT NOT NULL DEFAULT (datetime('now'))
+  );
 `);
 
 /* Seed one default admin account the very first time the DB is created,

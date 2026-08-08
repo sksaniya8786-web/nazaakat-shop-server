@@ -35,6 +35,12 @@
   .field{border-bottom:1px solid var(--line);margin-bottom:1.4em;padding-bottom:.4em;}
   .field label{display:block;font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--taupe);margin-bottom:.5em;}
   .field input{width:100%;border:none;outline:none;background:none;font-family:var(--body);font-size:.95rem;color:var(--charcoal);padding:.35em 0;}
+  .pw-wrap{position:relative;display:flex;align-items:center;}
+  .pw-wrap input{padding-right:2.1em;}
+  .pw-toggle{position:absolute;right:0;background:none;border:none;cursor:pointer;color:var(--taupe);padding:.2em;display:flex;align-items:center;}
+  .pw-toggle:hover{color:var(--charcoal);}
+  .pw-toggle svg{width:18px;height:18px;}
+  .pw-toggle .eye-closed{display:none;}
   .btn-submit{width:100%;font-size:.76rem;letter-spacing:.16em;text-transform:uppercase;padding:1em;border:1px solid var(--charcoal);background:var(--charcoal);color:var(--cream);cursor:pointer;}
   .btn-submit:hover{background:var(--olive-deep);border-color:var(--olive-deep);}
   .form-msg{text-align:center;font-size:.82rem;margin-top:1.2em;display:none;}
@@ -100,6 +106,8 @@
     tbody td::before{content:attr(data-label);color:var(--taupe);font-size:.7rem;text-transform:uppercase;letter-spacing:.06em;}
   }
 </style>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 </head>
 <body>
 
@@ -119,7 +127,7 @@
       </div>
       <div class="field">
         <label for="adminPassword">Password</label>
-        <input type="password" id="adminPassword" required>
+        <div class="pw-wrap"><input type="password" id="adminPassword" required><button type="button" class="pw-toggle" data-target="adminPassword" aria-label="Show password"><svg class="eye-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg><svg class="eye-closed" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M17.94 17.94A10.94 10.94 0 0 1 12 19c-7 0-11-7-11-7a21.4 21.4 0 0 1 5.06-5.94M9.9 4.24A10.94 10.94 0 0 1 12 4c7 0 11 7 11 7a21.4 21.4 0 0 1-2.16 3.19M14.12 14.12a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg></button></div>
       </div>
       <button type="submit" class="btn-submit">Sign In</button>
       <p class="form-msg" id="adminLoginMsg"></p>
@@ -132,6 +140,7 @@
   <div class="tabs">
     <button class="tab-btn active" data-tab="orders">Orders</button>
     <button class="tab-btn" data-tab="customers">Customers</button>
+    <button class="tab-btn" data-tab="map">Delivery Map</button>
   </div>
 
   <!-- ORDERS -->
@@ -154,14 +163,23 @@
     </table>
     <div class="empty-state" id="customersEmpty" style="display:none;">No customers have registered yet.</div>
   </div>
+
+  <!-- MAP -->
+  <div class="panel" id="panel-map">
+    <p style="font-size:.82rem;color:var(--taupe);margin-bottom:1.2em;line-height:1.6;">
+      Pins are placed using the <strong>delivery address</strong> each customer entered at checkout (city, state, PIN code) — not their device's live location. Pin position is approximate, based on that address text.
+    </p>
+    <div id="deliveryMap" style="height:520px;border:1px solid var(--line);border-radius:12px;"></div>
+    <div class="empty-state" id="mapEmpty" style="display:none;">No orders with a delivery address yet.</div>
+  </div>
 </div>
 
 <div id="changePwModal">
   <div class="modal-box">
     <h3>Change Admin Password</h3>
     <form id="changePwForm">
-      <div class="field"><label>Current Password</label><input type="password" id="curPw" required></div>
-      <div class="field"><label>New Password</label><input type="password" id="newPw" minlength="6" required></div>
+      <div class="field"><label>Current Password</label><div class="pw-wrap"><input type="password" id="curPw" required><button type="button" class="pw-toggle" data-target="curPw" aria-label="Show password"><svg class="eye-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg><svg class="eye-closed" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M17.94 17.94A10.94 10.94 0 0 1 12 19c-7 0-11-7-11-7a21.4 21.4 0 0 1 5.06-5.94M9.9 4.24A10.94 10.94 0 0 1 12 4c7 0 11 7 11 7a21.4 21.4 0 0 1-2.16 3.19M14.12 14.12a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg></button></div></div>
+      <div class="field"><label>New Password</label><div class="pw-wrap"><input type="password" id="newPw" minlength="6" required><button type="button" class="pw-toggle" data-target="newPw" aria-label="Show password"><svg class="eye-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg><svg class="eye-closed" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M17.94 17.94A10.94 10.94 0 0 1 12 19c-7 0-11-7-11-7a21.4 21.4 0 0 1 5.06-5.94M9.9 4.24A10.94 10.94 0 0 1 12 4c7 0 11 7 11 7a21.4 21.4 0 0 1-2.16 3.19M14.12 14.12a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg></button></div></div>
       <button type="submit" class="btn-submit">Update Password</button>
       <p class="form-msg" id="changePwMsg"></p>
     </form>
@@ -255,6 +273,7 @@
       document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
       btn.classList.add('active');
       document.getElementById('panel-' + btn.dataset.tab).classList.add('active');
+      if (btn.dataset.tab === 'map') loadDeliveryMap();
     });
   });
 
@@ -363,6 +382,64 @@
       </tr>
     `).join('');
   }
+
+  /* ---------------- delivery map ---------------- */
+  let deliveryMapInstance = null;
+  let deliveryMapLoaded = false;
+  const statusColors = { pending: '#8B7059', accepted: '#535731', delivered: '#2A241D' };
+
+  async function loadDeliveryMap() {
+    if (deliveryMapLoaded) return;
+    deliveryMapLoaded = true;
+
+    const mapEl = document.getElementById('deliveryMap');
+    const emptyEl = document.getElementById('mapEmpty');
+    mapEl.innerHTML = '<div class="empty-state">Locating deliveries…</div>';
+
+    const data = await API('/api/admin/delivery-locations');
+    const pins = data.pins || [];
+
+    if (pins.length === 0) {
+      mapEl.style.display = 'none';
+      emptyEl.style.display = 'block';
+      return;
+    }
+    mapEl.style.display = 'block';
+    mapEl.innerHTML = '';
+
+    deliveryMapInstance = L.map('deliveryMap').setView([pins[0].lat, pins[0].lng], 6);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OpenStreetMap contributors',
+      maxZoom: 18
+    }).addTo(deliveryMapInstance);
+
+    const bounds = [];
+    pins.forEach(p => {
+      const color = statusColors[p.status] || '#8B7059';
+      const marker = L.circleMarker([p.lat, p.lng], {
+        radius: 9, color: '#FBF8F2', weight: 2, fillColor: color, fillOpacity: 0.9
+      }).addTo(deliveryMapInstance);
+      marker.bindPopup(`
+        <strong>Order #${p.orderId}</strong><br>
+        ${p.name}<br>
+        ${p.city}, ${p.state}<br>
+        <span style="text-transform:uppercase;font-size:.75em;">${p.status}</span> · ₹${Number(p.subtotal).toLocaleString('en-IN')}
+      `);
+      bounds.push([p.lat, p.lng]);
+    });
+    if (bounds.length > 1) deliveryMapInstance.fitBounds(bounds, { padding: [30, 30] });
+  }
+
+  document.querySelectorAll('.pw-toggle').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const input = document.getElementById(btn.dataset.target);
+      const isHidden = input.type === 'password';
+      input.type = isHidden ? 'text' : 'password';
+      btn.querySelector('.eye-open').style.display = isHidden ? 'none' : 'block';
+      btn.querySelector('.eye-closed').style.display = isHidden ? 'block' : 'none';
+      btn.setAttribute('aria-label', isHidden ? 'Hide password' : 'Show password');
+    });
+  });
 
   init();
 </script>

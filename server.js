@@ -268,6 +268,55 @@ app.post('/api/admin/change-password', requireAdmin, (req, res) => {
   res.json({ ok: true });
 });
 
+/* Approximate map pins from each order's DELIVERY ADDRESS (city/state/PIN
+   the customer typed at checkout) — never live device location, which we
+   have no access to and would need separate customer consent for.
+   Uses OpenStreetMap's free Nominatim geocoder and caches results in
+   SQLite so repeat visits don't re-query it for the same address. */
+async function geocodeQuery(query) {
+  const cached = db.prepare('SELECT lat, lng FROM geocode_cache WHERE query = ?').get(query);
+  if (cached) return cached;
+
+  const url = `https://nominatim.openstreetmap.org/search?format=json&limit=1&countrycodes=in&q=${encodeURIComponent(query)}`;
+  try {
+    const res = await fetch(url, { headers: { 'User-Agent': 'Nazaakat-by-Saniya-Admin/1.0' } });
+    const results = await res.json();
+    if (results && results[0]) {
+      const lat = parseFloat(results[0].lat);
+      const lng = parseFloat(results[0].lon);
+      db.prepare('INSERT OR REPLACE INTO geocode_cache (query, lat, lng) VALUES (?, ?, ?)').run(query, lat, lng);
+      return { lat, lng };
+    }
+  } catch (e) { /* geocoding failed — skip this pin */ }
+  db.prepare('INSERT OR REPLACE INTO geocode_cache (query, lat, lng) VALUES (?, NULL, NULL)').run(query);
+  return null;
+}
+
+app.get('/api/admin/delivery-locations', requireAdmin, async (req, res) => {
+  const orders = db.prepare(`
+    SELECT o.id, o.status, o.subtotal, o.ship_city, o.ship_state, o.ship_pincode, o.ship_name,
+           u.name AS customer_name
+    FROM orders o JOIN users u ON u.id = o.user_id
+    WHERE o.ship_city IS NOT NULL AND o.ship_city != ''
+    ORDER BY o.created_at DESC
+  `).all();
+
+  const pins = [];
+  for (const o of orders) {
+    const query = [o.ship_city, o.ship_state, o.ship_pincode, 'India'].filter(Boolean).join(', ');
+    const loc = await geocodeQuery(query);
+    if (loc && loc.lat != null) {
+      pins.push({
+        orderId: o.id, status: o.status, subtotal: o.subtotal,
+        name: o.ship_name || o.customer_name,
+        city: o.ship_city, state: o.ship_state,
+        lat: loc.lat, lng: loc.lng
+      });
+    }
+  }
+  res.json({ pins });
+});
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`\nNazaakat by Saniya — server running!`);
