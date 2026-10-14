@@ -4,10 +4,9 @@
   "description": "Nazaakat by Saniya shop server",
   "private": true,
   "main": "server.js",
-   "scripts": {
-  "dev": "node --no-warnings server.js",
-  "start": "node --no-warnings server.js"
-
+  "scripts": {
+    "dev": "node --no-warnings server.js",
+    "start": "node --no-warnings server.js"
   },
   "engines": {
     "node": ">=22.5.0"
@@ -16,8 +15,5 @@
     "bcryptjs": "^3.0.3",
     "express": "^4.21.2",
     "express-session": "^1.19.0"
-  },
-  "devDependencies": {
-    "vite": "^6.4.3"
   }
 }
